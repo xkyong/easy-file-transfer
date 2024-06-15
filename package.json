@@ -2,7 +2,7 @@
   "name": "file-transfer",
   "version": "0.1.0",
   "author": "xiekaiyong",
-  "description": "a tool which can transfer file between pc and mobile device.",
+  "description": "a tool which can transfer files between pc and mobile device.",
   "main": "index.js",
   "scripts": {
     "m2pc": "nodemon ./src/server.js",
