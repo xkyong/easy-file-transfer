@@ -29,7 +29,7 @@ $ pnpm run pc2m
 
 然后在页面中点击要传输的文件，即可将文件下载到移动端本地：
 
-<img src="img/README/IMG_1330.png" alt="IMG_1330" style="zoom: 33%;" />
+<img src="img/README/IMG_1330.png" alt="IMG_1330"  />
 
 
 
@@ -45,11 +45,11 @@ $ pnpm run m2pc
 
 通过启动服务的 url 访问可以看到：
 
-<img src="img/README/IMG_1331.png" alt="IMG_1331" style="zoom: 33%;" />
+<img src="img/README/IMG_1331.png" alt="IMG_1331"  />
 
 然后通过 file 表单项选择文件并上传（支持多选），上传成功的文件会放在 `uploads` 文件夹中：
 
-<img src="img/README/IMG_1332.png" alt="IMG_1332" style="zoom: 33%;" />
+<img src="img/README/IMG_1332.png" alt="IMG_1332"  />
 
 
 
