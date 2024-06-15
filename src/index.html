@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文件上传</title>
+  </head>
+  <body>
+    <p>
+      <label for="file-input">选择要上传的文件</label>
+      <input id="file-input" type="file" multiple />
+    </p>
+    <p><button id="upload-btn">上传</button></p>
+    <p>上传状态：<br /><span class="upload-status">无</span></p>
+    <script>
+      const fileInputEl = document.getElementById('file-input')
+      const uploadBtn = document.getElementById('upload-btn')
+      const uploadStatusEl = document.querySelector('.upload-status')
+      let uploading = false
+      let files = []
+      const formData = new FormData()
+
+      fileInputEl.addEventListener('change', async (e) => {
+        files = []
+        formData.delete('file')
+
+        files = e.target.files
+        for (let i = 0; i < files.length; i++) {
+          formData.append('file', files[i])
+        }
+      })
+
+      uploadBtn.addEventListener('click', () => uploadFile())
+
+      async function uploadFile() {
+        if (files.length === 0) {
+          return window.alert('请至少选中一个文件上传！')
+        }
+
+        try {
+          uploadBtn.setAttribute('disabled', true)
+          uploadStatusEl.innerHTML = '上传中...'
+          const res = await fetch('/file/upload', {
+            method: 'POST',
+            body: formData,
+          })
+          const data = await res.text()
+          uploadStatusEl.innerHTML = data.replaceAll('\n', '<br />')
+        } catch (error) {
+          uploadStatusEl.innerHTML = '上传失败，请重试...'
+          console.error('上传失败：', error)
+        } finally {
+          uploadBtn.removeAttribute('disabled')
+        }
+      }
+    </script>
+  </body>
+</html>

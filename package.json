@@ -1,0 +1,36 @@
+{
+  "name": "file-transfer",
+  "version": "0.1.0",
+  "author": "xiekaiyong",
+  "description": "a tool which can transfer file between pc and mobile device.",
+  "main": "index.js",
+  "scripts": {
+    "m2pc": "nodemon ./src/server.js",
+    "pc2m": "http-server ./static/",
+    "bootstrap": "npm-run-all --parallel m2pc pc2m"
+  },
+  "keywords": [
+    "file-transfer",
+    "koa",
+    "http-server"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@koa/multer": "^3.0.2",
+    "http-server": "^14.1.1",
+    "iconv-lite": "^0.6.3",
+    "ip": "^1.1.8",
+    "koa": "^2.14.1",
+    "koa-cors": "^0.0.16",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^12.0.0",
+    "koa-static": "^5.0.0",
+    "multer": "1.4.5-lts.1",
+    "portfinder": "^1.0.32"
+  },
+  "devDependencies": {
+    "chalk": "4",
+    "nodemon": "^2.0.21",
+    "npm-run-all": "^4.1.5"
+  }
+}
