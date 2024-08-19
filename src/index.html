@@ -27,11 +27,34 @@
 
         files = e.target.files
         for (let i = 0; i < files.length; i++) {
-          formData.append('file', files[i])
+          // 先转 Base64，再转 File，以解决 `net::ERR_UPLOAD_FILE_CHANGED` 报错
+          const base64File = await fileToBase64(files[i])
+          formData.append('file', base64ToFile(base64File, files[i].name))
         }
       })
 
       uploadBtn.addEventListener('click', () => uploadFile())
+
+      function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.readAsDataURL(file)
+          reader.onload = () => resolve(reader.result)
+          reader.onerror = (error) => reject(error)
+        })
+      }
+
+      function base64ToFile(base64, filename) {
+        const arr = base64.split(',')
+        const mime = arr[0].match(/:(.*?);/)[1]
+        const bstr = atob(arr[1])
+        let n = bstr.length
+        const u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        return new File([u8arr], filename, { type: mime })
+      }
 
       async function uploadFile() {
         if (files.length === 0) {
@@ -39,6 +62,7 @@
         }
 
         try {
+          fileInputEl.setAttribute('disabled', true)
           uploadBtn.setAttribute('disabled', true)
           uploadStatusEl.innerHTML = '上传中...'
           const res = await fetch('/file/upload', {
@@ -51,6 +75,7 @@
           uploadStatusEl.innerHTML = '上传失败，请重试...'
           console.error('上传失败：', error)
         } finally {
+          fileInputEl.removeAttribute('disabled')
           uploadBtn.removeAttribute('disabled')
         }
       }
