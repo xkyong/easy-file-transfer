@@ -25,11 +25,20 @@
         files = []
         formData.delete('file')
 
+        let transformedCount = 0
         files = e.target.files
+        uploadBtn.setAttribute('disabled', true)
+        uploadStatusEl.innerHTML = '转换中...'
         for (let i = 0; i < files.length; i++) {
           // 先转 Base64，再转 File，以解决 `net::ERR_UPLOAD_FILE_CHANGED` 报错
           const base64File = await fileToBase64(files[i])
+          transformedCount++
           formData.append('file', base64ToFile(base64File, files[i].name))
+
+          if (transformedCount === files.length) {
+            uploadBtn.removeAttribute('disabled')
+            uploadStatusEl.innerHTML = ''
+          }
         }
       })
 
